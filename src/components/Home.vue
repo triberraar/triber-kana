@@ -36,55 +36,63 @@
         </v-layout>
       </v-container>
     </v-card-text>
-
-        <v-card-actions>
-          <v-btn flat class="orange--text" v-on:click="play">Play !</v-btn>
-
-        </v-card-actions>
+      <v-card-actions>
+        <v-btn flat class="orange--text" v-on:click="play">Play !</v-btn>
+      </v-card-actions>
       </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import {required} from 'vuelidate/lib/validators'
+  import { required } from 'vuelidate/lib/validators'
+  import { mapMutations } from 'vuex'
 
-export default {
-  data () {
-    return {
-      types: [
-      { text: 'hiragana - ひらがな', value: 'hiragana' }
-      ],
-      numberOfRoundsList: [
-        5, 10, 15, 25, 50
-      ],
-      type: '',
-      numberOfRounds: null,
-      errorMessages: []
-    }
-  },
-  methods: {
-    play: function () {
-      this.$v.$touch()
-    },
-    errorMessage: function (field) {
-      console.log(field)
-      if (this.$v[field].$error) {
-        if (!this.$v[field].required) {
-          return ['Field is required']
-        }
+  import { START_GAME } from '@/store/constants'
+  import { GAME } from '@/router/constants'
+
+  export default {
+    data () {
+      return {
+        types: [
+        { text: 'hiragana - ひらがな', value: 'hiragana' }
+        ],
+        numberOfRoundsList: [
+          5, 10, 15, 25, 50
+        ],
+        type: '',
+        numberOfRounds: null,
+        errorMessages: []
       }
-      return []
-    }
-  },
-  validations: {
-    type: {
-      required
     },
-    numberOfRounds: {
-      required
+    methods: {
+      ...mapMutations([
+        START_GAME
+      ]),
+      play: function () {
+        this.$v.$touch()
+        if (!this.$v.$invalid) {
+          this[START_GAME]({ type: this.type, numberOfRounds: this.numberOfRounds })
+          this.$router.push({name: GAME})
+        }
+      },
+      errorMessage: function (field) {
+        if (this.$v[field].$error) {
+          if (!this.$v[field].required) {
+            return ['Field is required']
+          }
+        }
+        return []
+      }
+    },
+    validations: {
+      type: {
+        required
+      },
+      numberOfRounds: {
+        required
+      }
     }
-  }
 
-}
+  }
 </script>
