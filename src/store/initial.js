@@ -7,5 +7,5 @@ export default {
   gameSymbols: null,
   selectedSymbols: [],
   solved: false,
-  numberOfAttempts: []
+  attempts: []
 }

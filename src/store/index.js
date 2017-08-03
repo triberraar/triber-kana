@@ -23,10 +23,10 @@ export default new Vuex.Store({
       state.gameSymbols = getGameSymbols({ kana, digraphs: useDigraphs, numberOfSymbols: state.numberOfSymbols })
       state.solved = false
       state.selectedSymbols = []
-      state.numberOfAttempts = [ 0 ]
+      state.attempts = [ { kana: state.gameSymbols.question.kana, amount: 0 } ]
     },
     [SYMBOL_SELECTED]: (state, {kana, romaji}) => {
-      state.numberOfAttempts[state.currentRound - 1] = state.numberOfAttempts[state.currentRound - 1] + 1
+      state.attempts[state.currentRound - 1].amount = state.attempts[state.currentRound - 1].amount + 1
       state.selectedSymbols.push({kana, romaji})
       if (state.gameSymbols.question.kana === kana && state.gameSymbols.question.romaji === romaji) {
         state.solved = true
@@ -40,7 +40,7 @@ export default new Vuex.Store({
         state.selectedSymbols = []
         state.solved = false
         state.gameSymbols = getGameSymbols({ kana: state.kana, digraphs: state.useDigraphs, numberOfSymbols: state.numberOfSymbols })
-        state.numberOfAttempts.push(0)
+        state.attempts.push({ kana: state.gameSymbols.question.kana, amount: 0 })
       }
     }
   },
@@ -78,7 +78,7 @@ export default new Vuex.Store({
       return state.currentRound === state.numberOfRounds
     },
     gameResult: state => {
-      return { numberOfRounds: state.numberOfRounds, numberOfAttempts: state.numberOfAttempts }
+      return { numberOfRounds: state.numberOfRounds, attempts: state.attempts }
     }
   },
   strict: true

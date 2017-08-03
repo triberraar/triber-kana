@@ -17,7 +17,21 @@
            <v-alert v-else-if="outcome === 'bad'" value="true" class="error">
             Ow this went badly, you better study.
           </v-alert>
+          <v-list>
+            <v-list-tile v-for="(attempt, index) in attempts" :key="index">
+              <v-list-tile-avatar>
+                <em>{{attempt.kana}}</em>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  <v-chip v-bind:class="{'success': attempt.amount < 2, 'warning': attempt.amount < 4, 'error': attempt.amount > 3}">{{attempt.amount}} attempt<span v-show="attempt.amount > 1">s</span></v-chip></v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
         </v-card-text>
+        <v-card-actions>
+          <v-btn flat class="orange--text" v-on:click="playAgain">Play again</v-btn>
+        </v-card-actions>
       </v-card>
     </v-flex>
   </v-layout>
@@ -34,8 +48,8 @@ export default {
       'gameResult'
     ]),
     outcome: function () {
-      var count = this.gameResult.numberOfAttempts.reduce(function (sum, value) {
-        if (value > 1) {
+      var count = this.gameResult.attempts.reduce(function (sum, value) {
+        if (value.amount > 1) {
           return sum + 1
         }
         return sum
@@ -48,6 +62,14 @@ export default {
       } else {
         return 'bad'
       }
+    },
+    attempts: function () {
+      return this.gameResult.attempts
+    }
+  },
+  methods: {
+    playAgain: function () {
+      this.$router.push({name: HOME})
     }
   },
   beforeRouteEnter (to, from, next) {
