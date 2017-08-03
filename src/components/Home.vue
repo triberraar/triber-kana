@@ -1,5 +1,5 @@
 <template>
-<v-layout>
+  <v-layout>
     <v-flex xs10 sm10 offset-sm1>
       <v-card>
         <v-card-title primary-title>
@@ -11,16 +11,33 @@
         <v-card-text>
         <v-container fluid>
           <v-layout row wrap>
-          <v-flex xs3>
-            <v-select
-              v-bind:items="types"
-              v-model="type"
-              label="Type"
-              single-line
-              bottom
-              v-bind:error-messages="errorMessage('type')"
-            ></v-select>
-          </v-flex>
+            <v-flex xs3>
+              <v-select
+                v-bind:items="kanas"
+                v-model="kana"
+                label="Kana"
+                single-line
+                bottom
+                v-bind:error-messages="errorMessage('kana')"
+              ></v-select>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs3>
+               <v-checkbox label="Use digraphs" v-model="useDigraphs" light></v-checkbox>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap>
+            <v-flex xs3>
+              <v-select
+                v-bind:items="types"
+                v-model="type"
+                label="Type"
+                single-line
+                bottom
+                v-bind:error-messages="errorMessage('type')"
+              ></v-select>
+            </v-flex>
         </v-layout>
         <v-layout row wrap>
           <v-flex xs3>
@@ -51,17 +68,28 @@
   import { START_GAME } from '@/store/constants'
   import { GAME } from '@/router/constants'
 
+  import { HIRAGANA, KATAKANA, WRITTEN_KANA_TO_SELECT_ROMAJI, WRITTEN_KANA_TO_TYPE_ROMAJI, WRITTEN_ROMAJI_TO_SELECT_KANA, RANDOM } from '@/components/Game/constants'
+
   export default {
     data () {
       return {
         types: [
-        { text: 'hiragana - ひらがな', value: 'hiragana' }
+        { text: 'Match the kana', value: WRITTEN_KANA_TO_SELECT_ROMAJI },
+        { text: 'Translate the kana', value: WRITTEN_KANA_TO_TYPE_ROMAJI },
+        { text: 'Understand the kana', value: WRITTEN_ROMAJI_TO_SELECT_KANA },
+        { text: 'Random', value: RANDOM }
         ],
         numberOfRoundsList: [
           5, 10, 15, 25, 50
         ],
+        kanas: [
+          { text: 'Hiragana - ひらがな', value: HIRAGANA },
+          { text: 'Katakana - カタカナ', value: KATAKANA }
+        ],
+        kana: null,
         type: '',
         numberOfRounds: null,
+        useDigraphs: false,
         errorMessages: []
       }
     },
@@ -72,7 +100,7 @@
       play: function () {
         this.$v.$touch()
         if (!this.$v.$invalid) {
-          this[START_GAME]({ type: this.type, numberOfRounds: this.numberOfRounds })
+          this[START_GAME]({ kana: this.kana, type: this.type, numberOfRounds: this.numberOfRounds, useDigraphs: this.useDigraphs })
           this.$router.push({name: GAME})
         }
       },
@@ -90,6 +118,9 @@
         required
       },
       numberOfRounds: {
+        required
+      },
+      kana: {
         required
       }
     }

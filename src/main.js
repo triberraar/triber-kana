@@ -7,6 +7,7 @@ import router from './router'
 import { sync } from 'vuex-router-sync'
 import store from './store'
 import Vuelidate from 'vuelidate'
+import 'animate.css/animate.min.css'
 
 Vue.use(Vuetify)
 Vue.use(Vuelidate)
