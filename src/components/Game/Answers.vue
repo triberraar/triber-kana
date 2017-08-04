@@ -38,7 +38,7 @@ export default {
       'question',
       'symbolsForRow',
       'selectedSymbols',
-      'type'
+      'mode'
     ])
   },
 
@@ -72,9 +72,9 @@ export default {
       return (this.selectedSymbols.some((it) => kanaEqual(it, answer)) && kanaEqual(answer, this.question))
     },
     answerDisplay (answer) {
-      if (this.type === WRITTEN_KANA_TO_SELECT_ROMAJI) {
+      if (this.mode === WRITTEN_KANA_TO_SELECT_ROMAJI) {
         return answer.romaji
-      } else if (this.type === WRITTEN_ROMAJI_TO_SELECT_KANA || this.type === SPOKEN_TO_SELECT_KANA) {
+      } else if (this.mode === WRITTEN_ROMAJI_TO_SELECT_KANA || this.mode === SPOKEN_TO_SELECT_KANA) {
         return answer.kana
       }
     }

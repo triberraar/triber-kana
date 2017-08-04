@@ -23,17 +23,17 @@ export default {
     ...mapGetters([
       'numberOfSymbols',
       'question',
-      'type'
+      'mode'
     ]),
     numberOfRows () {
       return this.numberOfSymbols / 6
     },
     questionDisplay () {
-      if (this.type === WRITTEN_KANA_TO_SELECT_ROMAJI) {
+      if (this.mode === WRITTEN_KANA_TO_SELECT_ROMAJI) {
         return this.question.kana
-      } else if (this.type === WRITTEN_ROMAJI_TO_SELECT_KANA) {
+      } else if (this.mode === WRITTEN_ROMAJI_TO_SELECT_KANA) {
         return this.question.romaji
-      } else if (this.type === SPOKEN_TO_SELECT_KANA) {
+      } else if (this.mode === SPOKEN_TO_SELECT_KANA) {
         return
       }
     }

@@ -38,22 +38,22 @@ export default {
   computed: {
     ...mapGetters([
       'question',
-      'type'
+      'mode'
     ]),
     questionDisplay () {
-      if (this.type === WRITTEN_KANA_TO_SELECT_ROMAJI) {
+      if (this.mode === WRITTEN_KANA_TO_SELECT_ROMAJI) {
         return this.question.kana
-      } else if (this.type === WRITTEN_ROMAJI_TO_SELECT_KANA) {
+      } else if (this.mode === WRITTEN_ROMAJI_TO_SELECT_KANA) {
         return this.question.romaji
-      } else if (this.type === SPOKEN_TO_SELECT_KANA) {
+      } else if (this.mode === SPOKEN_TO_SELECT_KANA) {
         return
       }
     },
     written () {
-      return this.type === WRITTEN_KANA_TO_SELECT_ROMAJI || this.type === WRITTEN_ROMAJI_TO_SELECT_KANA
+      return this.mode === WRITTEN_KANA_TO_SELECT_ROMAJI || this.mode === WRITTEN_ROMAJI_TO_SELECT_KANA
     },
     spoken () {
-      return this.type === SPOKEN_TO_SELECT_KANA
+      return this.mode === SPOKEN_TO_SELECT_KANA
     }
   },
   methods: {

@@ -6,8 +6,14 @@ import { FINISHED_GAME } from '@/router/constants'
 import initial from './initial'
 import { START_GAME, SYMBOL_SELECTED, NEXT_ROUND } from './constants'
 import { getGameSymbols } from '@/components/Game/engine'
+import { WRITTEN_KANA_TO_SELECT_ROMAJI, WRITTEN_ROMAJI_TO_SELECT_KANA, SPOKEN_TO_SELECT_KANA, RANDOM } from '@/components/Game/constants'
 
 Vue.use(Vuex)
+
+const getRandomMode = () => {
+  const arr = [WRITTEN_KANA_TO_SELECT_ROMAJI, WRITTEN_ROMAJI_TO_SELECT_KANA, SPOKEN_TO_SELECT_KANA]
+  return arr[Math.floor(Math.random() * arr.length)]
+}
 
 export default new Vuex.Store({
   state: {
@@ -24,6 +30,11 @@ export default new Vuex.Store({
       state.solved = false
       state.selectedSymbols = []
       state.attempts = [ { kana: state.gameSymbols.question.kana, amount: 0 } ]
+      if (state.type === RANDOM) {
+        state.mode = getRandomMode()
+      } else {
+        state.mode = state.type
+      }
     },
     [SYMBOL_SELECTED]: (state, {kana, romaji}) => {
       state.attempts[state.currentRound - 1].amount = state.attempts[state.currentRound - 1].amount + 1
@@ -42,6 +53,9 @@ export default new Vuex.Store({
         state.solved = false
         state.gameSymbols = getGameSymbols({ kana: state.kana, digraphs: state.useDigraphs, numberOfSymbols: state.numberOfSymbols })
         state.attempts.push({ kana: state.gameSymbols.question.kana, amount: 0 })
+        if (state.type === RANDOM) {
+          state.mode = getRandomMode()
+        }
       }
     }
   },
@@ -78,8 +92,8 @@ export default new Vuex.Store({
     gameResult: state => {
       return { numberOfRounds: state.numberOfRounds, attempts: state.attempts }
     },
-    type: state => {
-      return state.type
+    mode: state => {
+      return state.mode
     },
     gameFinished: state => {
       return state.numberOfRounds === state.currentRound
