@@ -18,7 +18,7 @@
             Ow this went badly, you better study.
           </v-alert>
           <v-list>
-            <v-list-tile v-for="(attempt, index) in attempts" :key="index">
+            <v-list-tile v-for="(attempt, key) in attempts" :key="key">
               <v-list-tile-avatar>
                 <em>{{attempt.kana}}</em>
               </v-list-tile-avatar>

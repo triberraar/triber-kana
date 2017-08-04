@@ -68,15 +68,15 @@
   import { START_GAME } from '@/store/constants'
   import { GAME } from '@/router/constants'
 
-  import { HIRAGANA, KATAKANA, WRITTEN_KANA_TO_SELECT_ROMAJI, WRITTEN_KANA_TO_TYPE_ROMAJI, WRITTEN_ROMAJI_TO_SELECT_KANA, RANDOM } from '@/components/Game/constants'
+  import { HIRAGANA, KATAKANA, WRITTEN_KANA_TO_SELECT_ROMAJI, WRITTEN_ROMAJI_TO_SELECT_KANA, SPOKEN_TO_SELECT_KANA, RANDOM } from '@/components/Game/constants'
 
   export default {
     data () {
       return {
         types: [
-        { text: 'Match the kana', value: WRITTEN_KANA_TO_SELECT_ROMAJI },
-        { text: 'Translate the kana', value: WRITTEN_KANA_TO_TYPE_ROMAJI },
-        { text: 'Understand the kana', value: WRITTEN_ROMAJI_TO_SELECT_KANA },
+        { text: 'Kana to Romaji', value: WRITTEN_KANA_TO_SELECT_ROMAJI },
+        { text: 'Romaji to Kana', value: WRITTEN_ROMAJI_TO_SELECT_KANA },
+        { text: 'Sound to Kana', value: SPOKEN_TO_SELECT_KANA },
         { text: 'Random', value: RANDOM }
         ],
         numberOfRoundsList: [

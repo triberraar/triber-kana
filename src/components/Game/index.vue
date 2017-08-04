@@ -2,14 +2,8 @@
   <v-layout>
     <v-flex xs10 sm10 offset-sm1>
       <v-card>
-        <v-layout row wrap>
-          <v-flex sm4 md2 offset-sm5>
-            <v-card dark class="primary mt-1 mb-1 text-xs-center">
-              <v-card-text><h2>{{question.kana}}</h2></v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-        <kana-row v-for="i in numberOfRows" :key="i" :rowNumber="i-1"></kana-row>
+        <question></question>
+        <answers v-for="i in numberOfRows" :key="i" :rowNumber="i-1"></answers>
       </v-card>
     </v-flex>
   </v-layout>
@@ -19,23 +13,29 @@
 import store from '@/store'
 import { mapGetters } from 'vuex'
 
-import KanaRow from './KanaRow'
+import Answers from './Answers'
+import Question from './Question'
 import { HOME } from '@/router/constants'
+import { WRITTEN_KANA_TO_SELECT_ROMAJI, WRITTEN_ROMAJI_TO_SELECT_KANA, SPOKEN_TO_SELECT_KANA } from './constants'
 
 export default {
-  data () {
-    return {
-    }
-  },
-  created: function () {
-  },
   computed: {
     ...mapGetters([
       'numberOfSymbols',
-      'question'
+      'question',
+      'type'
     ]),
     numberOfRows: function () {
       return this.numberOfSymbols / 6
+    },
+    questionDisplay: function () {
+      if (this.type === WRITTEN_KANA_TO_SELECT_ROMAJI) {
+        return this.question.kana
+      } else if (this.type === WRITTEN_ROMAJI_TO_SELECT_KANA) {
+        return this.question.romaji
+      } else if (this.type === SPOKEN_TO_SELECT_KANA) {
+        return
+      }
     }
   },
   methods: {
@@ -49,7 +49,8 @@ export default {
     }
   },
   components: {
-    'kana-row': KanaRow
+    'answers': Answers,
+    'question': Question
   }
 }
 </script>

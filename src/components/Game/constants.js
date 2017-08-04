@@ -1,9 +1,8 @@
 export const HIRAGANA = 'HIRAGANA'
 export const KATAKANA = 'KATAKANA'
 
-export const WRITTEN_KANA_TO_SELECT_ROMAJI = 'writtenKanaToSelectromaji'
-export const WRITTEN_KANA_TO_TYPE_ROMAJI = 'writtenKanaToTyperomaji'
-export const WRITTEN_ROMAJI_TO_SELECT_KANA = 'writtenromajiToSelectKana'
+export const WRITTEN_KANA_TO_SELECT_ROMAJI = 'writtenKanaToSelectRomaji'
+export const WRITTEN_ROMAJI_TO_SELECT_KANA = 'writtenRomajiToSelectKana'
 export const BUILD_KANA_TABLE = 'buildKanaTable'
 export const SPOKEN_TO_SELECT_KANA = 'spokenToSelectKana'
 export const RANDOM = 'random'

@@ -34,6 +34,7 @@ export default new Vuex.Store({
     },
     [NEXT_ROUND]: state => {
       if (state.currentRound === state.numberOfRounds) {
+        console.log('store says finished')
         router.push({ name: FINISHED_GAME })
       } else {
         state.currentRound = state.currentRound + 1
@@ -63,10 +64,10 @@ export default new Vuex.Store({
       return state.numberOfSymbols
     },
     question: state => {
-      return state.gameSymbols.question
+      return state.gameSymbols && state.gameSymbols.question
     },
     answers: state => {
-      return state.gameSymbols.answers
+      return state.gameSymbols && state.gameSymbols.answers
     },
     symbolsForRow: state => row => {
       return [...state.gameSymbols.answers].slice(row * 6, (row + 1) * 6)
@@ -74,11 +75,14 @@ export default new Vuex.Store({
     selectedSymbols: state => {
       return state.selectedSymbols
     },
-    gameFinished: state => {
-      return state.currentRound === state.numberOfRounds
-    },
     gameResult: state => {
       return { numberOfRounds: state.numberOfRounds, attempts: state.attempts }
+    },
+    type: state => {
+      return state.type
+    },
+    gameFinished: state => {
+      return state.numberOfRounds === state.currentRound
     }
   },
   strict: true
