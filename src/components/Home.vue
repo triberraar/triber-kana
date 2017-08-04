@@ -97,14 +97,14 @@
       ...mapMutations([
         START_GAME
       ]),
-      play: function () {
+      play () {
         this.$v.$touch()
         if (!this.$v.$invalid) {
           this[START_GAME]({ kana: this.kana, type: this.type, numberOfRounds: this.numberOfRounds, useDigraphs: this.useDigraphs })
           this.$router.push({name: GAME})
         }
       },
-      errorMessage: function (field) {
+      errorMessage (field) {
         if (this.$v[field].$error) {
           if (!this.$v[field].required) {
             return ['Field is required']

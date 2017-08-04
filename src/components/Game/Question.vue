@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <v-flex sm4 md2 offset-sm5>
       <v-card dark class="primary mt-1 mb-1 text-xs-center">
-        <v-card-text v-on:click="speak">
+        <v-card-text v-on:click="play">
           <h2 v-if="written">{{questionDisplay}}</h2>
           <div v-if="spoken"><v-btn flat primary :loading="talking > 0"><v-icon x-large>play_arrow</v-icon></v-btn></div>
         </v-card-text>
@@ -14,6 +14,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import speaker from '@/mixins/speaker'
 import { WRITTEN_KANA_TO_SELECT_ROMAJI, WRITTEN_ROMAJI_TO_SELECT_KANA, SPOKEN_TO_SELECT_KANA } from './constants'
 
 export default {
@@ -25,7 +26,8 @@ export default {
       talking: false
     }
   },
-  created: function () {
+  mixins: [speaker],
+  created () {
     this.voiceList = this.synth.getVoices()
     this.voices = this.voiceList.filter(it => it.lang === 'ja-JP')
     this.synth.onvoiceschanged = () => {
@@ -38,7 +40,7 @@ export default {
       'question',
       'type'
     ]),
-    questionDisplay: function () {
+    questionDisplay () {
       if (this.type === WRITTEN_KANA_TO_SELECT_ROMAJI) {
         return this.question.kana
       } else if (this.type === WRITTEN_ROMAJI_TO_SELECT_KANA) {
@@ -47,31 +49,18 @@ export default {
         return
       }
     },
-    written: function () {
+    written () {
       return this.type === WRITTEN_KANA_TO_SELECT_ROMAJI || this.type === WRITTEN_ROMAJI_TO_SELECT_KANA
     },
-    spoken: function () {
+    spoken () {
       return this.type === SPOKEN_TO_SELECT_KANA
     }
   },
   methods: {
-    speak: function () {
+    play () {
       if (this.spoken) {
-        this.talking = this.voices.length
-        this.voices.forEach(voice => {
-          const message = new window.SpeechSynthesisUtterance()
-          message.text = this.question.kana
-          message.voice = voice
-          message.rate = 0.5
-          message.onend = () => {
-            this.talking = this.talking - 1
-          }
-          this.synth.speak(message)
-        })
+        this.speak(this.question.kana)
       }
-    },
-    listenForSpeechEvents: function () {
-
     }
   }
 }

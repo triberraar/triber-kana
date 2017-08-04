@@ -25,10 +25,10 @@ export default {
       'question',
       'type'
     ]),
-    numberOfRows: function () {
+    numberOfRows () {
       return this.numberOfSymbols / 6
     },
-    questionDisplay: function () {
+    questionDisplay () {
       if (this.type === WRITTEN_KANA_TO_SELECT_ROMAJI) {
         return this.question.kana
       } else if (this.type === WRITTEN_ROMAJI_TO_SELECT_KANA) {
@@ -37,9 +37,6 @@ export default {
         return
       }
     }
-  },
-  methods: {
-
   },
   beforeRouteEnter (to, from, next) {
     if (store.getters.gameCanBeStarted) {

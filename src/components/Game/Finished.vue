@@ -19,7 +19,8 @@
           </v-alert>
           <v-list>
             <v-list-tile v-for="(attempt, key) in attempts" :key="key">
-              <v-list-tile-avatar>
+              <v-list-tile-avatar v-on:click="play(attempt.kana)">
+                <v-icon>play_arrow</v-icon>
                 <em>{{attempt.kana}}</em>
               </v-list-tile-avatar>
               <v-list-tile-content>
@@ -42,12 +43,15 @@ import store from '@/store'
 import { HOME } from '@/router/constants'
 import { mapGetters } from 'vuex'
 
+import speaker from '@/mixins/speaker'
+
 export default {
+  mixins: [speaker],
   computed: {
     ...mapGetters([
       'gameResult'
     ]),
-    outcome: function () {
+    outcome () {
       var count = this.gameResult.attempts.reduce(function (sum, value) {
         if (value.amount > 1) {
           return sum + 1
@@ -63,13 +67,16 @@ export default {
         return 'bad'
       }
     },
-    attempts: function () {
+    attempts () {
       return this.gameResult.attempts
     }
   },
   methods: {
-    playAgain: function () {
+    playAgain () {
       this.$router.push({name: HOME})
+    },
+    play (word) {
+      this.speak(word)
     }
   },
   beforeRouteEnter (to, from, next) {

@@ -33,8 +33,6 @@ export default {
     }
   },
   props: ['rowNumber'],
-  created: function () {
-  },
   computed: {
     ...mapGetters([
       'question',
@@ -51,7 +49,7 @@ export default {
     select: function (answer) {
       this[SYMBOL_SELECTED](answer)
     },
-    computeClasses: function (answer) {
+    computeClasses (answer) {
       let ret = []
       if (this.shouldPulse(answer)) {
         ret.push('pulse')
@@ -73,7 +71,7 @@ export default {
     shouldBeSuccess (answer) {
       return (this.selectedSymbols.some((it) => kanaEqual(it, answer)) && kanaEqual(answer, this.question))
     },
-    answerDisplay: function (answer) {
+    answerDisplay (answer) {
       if (this.type === WRITTEN_KANA_TO_SELECT_ROMAJI) {
         return answer.romaji
       } else if (this.type === WRITTEN_ROMAJI_TO_SELECT_KANA || this.type === SPOKEN_TO_SELECT_KANA) {
