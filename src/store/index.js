@@ -45,7 +45,6 @@ export default new Vuex.Store({
     },
     [NEXT_ROUND]: state => {
       if (state.currentRound === state.numberOfRounds) {
-        console.log('store says finished')
         router.push({ name: FINISHED_GAME })
       } else {
         state.currentRound = state.currentRound + 1
